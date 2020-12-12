@@ -12,9 +12,9 @@ import {
   Typography,
   IconButton,
   Avatar,
-  Icon,
+  //Icon,
 } from '@material-ui/core';
-import { Book } from 'react-feather';
+//import { Book } from 'react-feather';
 
 const useStyles = makeStyles((theme) => ({
   root: {
