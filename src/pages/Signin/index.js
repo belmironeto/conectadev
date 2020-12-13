@@ -3,6 +3,8 @@ import { Grid, Box, Avatar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, TextField, Button, Link } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { useNavigate } from 'react-router-dom';
+import axios from '../../utils/axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +43,13 @@ function CopyRight() {
 }
 export default function SignIn() {
   const classes = useStyles();
+  const navigate = useNavigate();
+
+  async function handleSignIn() {
+    const response = await axios.post('/api/home/login');
+    console.log(response);
+  }
+
   return (
     <Grid container className={classes.root}>
       <Grid
@@ -104,6 +113,7 @@ export default function SignIn() {
               variant="contained"
               color="primary"
               className={classes.button}
+              onClick={() => handleSignIn()}
             >
               Entrar
             </Button>
