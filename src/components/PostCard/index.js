@@ -67,10 +67,10 @@ function PostCard({ post }) {
         }
       />
       <CardContent className={classes.content}>
-        <Typography className={classes.message} variant="body">
-          {post.hashtags}
-        </Typography>
         <CardActionArea>
+          <Typography className={classes.message} variant="body1">
+            {post.hashtags}
+          </Typography>
           <img src={post.image} className={classes.image} alt="" />
         </CardActionArea>
       </CardContent>
