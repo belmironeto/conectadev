@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, Box, Avatar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, TextField, Button, Link } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../utils/axios';
+import authService from '../../services/authService';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,10 +46,17 @@ function CopyRight() {
 export default function SignIn() {
   const classes = useStyles();
   const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState();
 
   async function handleSignIn() {
-    const response = await axios.post('/api/home/login');
-    console.log(response);
+    try {
+      await authService.signIn(email, password);
+      navigate('/');
+    } catch (error) {
+      setErrorMessage(error.response.data.message);
+    }
   }
 
   return (
@@ -96,6 +105,8 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
             />
             <TextField
               variant="outlined"
@@ -107,6 +118,8 @@ export default function SignIn() {
               label="Senha"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
             />
             <Button
               fullWidth
@@ -117,6 +130,9 @@ export default function SignIn() {
             >
               Entrar
             </Button>
+            {errorMessage && (
+              <FormHelperText error>{errorMessage}</FormHelperText>
+            )}
             <Grid container>
               <Grid item>
                 <Link>Esqueceu sua senha?</Link>
