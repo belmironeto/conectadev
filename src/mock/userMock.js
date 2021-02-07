@@ -17,6 +17,8 @@ mock.onPost('/api/home/login').reply((config) => {
     id: 1,
     name: 'Belmiro Christo Neto',
     email: 'belmiro.neto@live.com',
+    avatar: '/images/avatars/avatarBelmiro.jpg',
+    username: 'belmiro.neto',
   };
 
   return [200, { user }];

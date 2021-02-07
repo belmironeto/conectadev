@@ -4,9 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, TextField, Button, Link } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useNavigate } from 'react-router-dom';
-//import axios from '../../utils/axios';
-import authService from '../../services/authService';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import { useDispatch } from 'react-redux';
+
+import signIn from '../../actions/accountActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,10 +50,11 @@ export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState();
+  const dispatch = useDispatch();
 
   async function handleSignIn() {
     try {
-      await authService.signIn(email, password);
+      await dispatch(signIn(email, password));
       navigate('/');
     } catch (error) {
       setErrorMessage(error.response.data.message);

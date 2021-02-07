@@ -6,6 +6,8 @@ import Tollbar from '@material-ui/core/Toolbar';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import { Bell } from 'react-feather';
 import Avatar from '@material-ui/core/Avatar';
+//import authService from '../../../services/authService';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
   appBar: {
@@ -30,6 +32,7 @@ const useStyles = makeStyles({
 });
 
 function Header() {
+  const account = useSelector((state) => state.account);
   const classes = useStyles();
 
   return (
@@ -48,7 +51,10 @@ function Header() {
           <SvgIcon className={classes.bell}>
             <Bell />
           </SvgIcon>
-          <Avatar alt="Belmiro Christo Neto" src="/" />
+          <Avatar
+            alt={account.user && account.user.name}
+            src={account.user && account.user.avatar}
+          />
         </div>
 
         {/* <div className="">
