@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import './mock';
+import Auth from './components/Auth';
 
 import theme from './theme';
 function App() {
@@ -13,11 +14,13 @@ function App() {
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <GuestRoute path="/sign-in" element={<SignIn />} />
-            <Route path="/*" element={<h1>Page Not Found - 404!</h1>} />
-          </Routes>
+          <Auth>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <GuestRoute path="/sign-in" element={<SignIn />} />
+              <Route path="/*" element={<h1>Page Not Found - 404!</h1>} />
+            </Routes>
+          </Auth>
         </BrowserRouter>
       </ThemeProvider>
     </Provider>
