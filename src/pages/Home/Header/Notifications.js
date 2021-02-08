@@ -20,7 +20,7 @@ import {
 import IconButton from '@material-ui/core/IconButton';
 import { useSelector, useDispatch } from 'react-redux';
 import Popover from '@material-ui/core/Popover';
-import { getNotifications } from '../../../../actions/notificationActions';
+import { getNotifications } from '../../../actions/notificationActions';
 
 const useStyles = makeStyles((theme) => ({
   icon: {

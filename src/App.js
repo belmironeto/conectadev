@@ -16,9 +16,8 @@ function App() {
         <BrowserRouter>
           <Auth>
             <Routes>
-              <Route path="/" element={<Home />} />
               <GuestRoute path="/sign-in" element={<SignIn />} />
-              <Route path="/*" element={<h1>Page Not Found - 404!</h1>} />
+              <Route path="//*" element={<Home />} />
             </Routes>
           </Auth>
         </BrowserRouter>
