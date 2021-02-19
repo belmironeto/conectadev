@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
@@ -14,6 +15,7 @@ import {
   Avatar,
   //Icon,
 } from '@material-ui/core';
+import { useNavigate } from 'react-router';
 //import { Book } from 'react-feather';
 
 const useStyles = makeStyles((theme) => ({
@@ -47,21 +49,25 @@ const useStyles = makeStyles((theme) => ({
 
 function PostCard({ post }) {
   const classes = useStyles();
+  const navigate = useNavigate();
+  const handlePostClick = () => {
+    navigate(`/post/${post.slug}`);
+  };
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} onClick={handlePostClick}>
       <CardHeader
-        avatar={<Avatar src={post.autor.avatar} />}
-        title={<Typography variant="h6">{post.title}</Typography>}
+        avatar={<Avatar src={post.autor?.avatar} />}
+        title={<Typography variant="h6">{post?.title}</Typography>}
         subheader={
           <div className={classes.subheader}>
             <Typography variant="caption" className={classes.caption}>
-              {'Avaliado por'}
+              {'Criado por'}
             </Typography>
             <Typography variant="subtitle2" className={classes.caption}>
-              {post.autor.name}
+              {post.autor?.name}
             </Typography>
             <Typography variant="subtitle2" className={classes.caption}>
-              {post.date}
+              {moment(post.date).fromNow()}
             </Typography>
           </div>
         }
@@ -69,9 +75,9 @@ function PostCard({ post }) {
       <CardContent className={classes.content}>
         <CardActionArea>
           <Typography className={classes.message} variant="body1">
-            {post.hashtags}
+            {post?.hashtags}
           </Typography>
-          <img src={post.image} className={classes.image} alt="" />
+          <img src={post?.image} className={classes.image} alt="" />
         </CardActionArea>
       </CardContent>
       <CardActions disableSpacing>
