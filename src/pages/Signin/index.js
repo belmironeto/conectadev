@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Grid, Box, Avatar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, TextField, Button, Link } from '@material-ui/core';
@@ -6,7 +6,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useNavigate } from 'react-router-dom';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { useDispatch } from 'react-redux';
-
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 import { signIn } from '../../actions/accountActions';
 
 const useStyles = makeStyles((theme) => ({
@@ -47,19 +48,8 @@ function CopyRight() {
 export default function SignIn() {
   const classes = useStyles();
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState();
-  const dispatch = useDispatch();
 
-  async function handleSignIn() {
-    try {
-      await dispatch(signIn(email, password));
-      navigate('/');
-    } catch (error) {
-      setErrorMessage(error.response.data.message);
-    }
-  }
+  const dispatch = useDispatch();
 
   return (
     <Grid container className={classes.root}>
@@ -96,54 +86,94 @@ export default function SignIn() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography variant="h5">Acesso</Typography>
-          <form className={classes.form}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="E-mail"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              type="password"
-              label="Senha"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-            />
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => handleSignIn()}
-            >
-              Entrar
-            </Button>
-            {errorMessage && (
-              <FormHelperText error>{errorMessage}</FormHelperText>
+          <Formik
+            initialValues={{
+              email: '',
+              password: '',
+            }}
+            validationSchema={Yup.object().shape({
+              email: Yup.string()
+                .email('Favor inserir um e-mail válido')
+                .max(255)
+                .required('Favor inserir um e-mail'),
+              password: Yup.string()
+                .max(255)
+                .required('Favor informar a senha'),
+            })}
+            onSubmit={async (
+              values,
+              { setErrors, setStatus, setSubmitting }
+            ) => {
+              try {
+                await dispatch(signIn(values.email, values.password));
+                navigate('/');
+              } catch (error) {
+                const message =
+                  (error.response && error.response.data.message) ||
+                  'Aconteceu algo de errado.';
+
+                setStatus({ success: false });
+                setErrors({ submit: message });
+                setSubmitting(false);
+              }
+            }}
+          >
+            {({ errors, handleChange, handleSubmit, isSubmitting, values }) => (
+              <form noValidate className={classes.form} onSubmit={handleSubmit}>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="E-mail"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                  value={values.email}
+                  onChange={handleChange}
+                  helperText={errors.email}
+                  error={Boolean(errors.email)}
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  type="password"
+                  label="Senha"
+                  id="password"
+                  autoComplete="current-password"
+                  value={values.password}
+                  onChange={handleChange}
+                  helperText={errors.password}
+                  error={Boolean(errors.password)}
+                />
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  Entrar
+                </Button>
+                {errors.submit && (
+                  <FormHelperText error>{errors.submit}</FormHelperText>
+                )}
+                <Grid container>
+                  <Grid item>
+                    <Link>Esqueceu sua senha?</Link>
+                  </Grid>
+                  <Grid item>
+                    <Link>Não tem uma conta? Registre-se</Link>
+                  </Grid>
+                </Grid>
+              </form>
             )}
-            <Grid container>
-              <Grid item>
-                <Link>Esqueceu sua senha?</Link>
-              </Grid>
-              <Grid item>
-                <Link>Não tem uma conta? Registre-se</Link>
-              </Grid>
-            </Grid>
-          </form>
+          </Formik>
           <CopyRight />
         </Box>
       </Grid>

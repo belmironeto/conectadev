@@ -16,7 +16,6 @@ import {
   //Icon,
 } from '@material-ui/core';
 import { useNavigate } from 'react-router';
-//import { Book } from 'react-feather';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -9,7 +9,7 @@ export default function Post() {
   const getPost = useCallback(async () => {
     const feed = await axios.get(`/api/posts/${param.slug}`);
     setPost(feed.data);
-  }, [setPost]);
+  }, [setPost, param.slug]);
 
   useEffect(() => {
     getPost();

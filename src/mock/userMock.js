@@ -28,3 +28,27 @@ mock.onPost('/api/home/login').reply((config) => {
 
   return [200, { user }];
 });
+
+mock.onGet('/api/home/user/lucasnhimi').reply(200, {
+  id: 2,
+  name: 'Lucas Nhimi',
+  username: 'lucasnhimi',
+  email: 'lucasnhimi@conectadev.com',
+  accessToken: 'dadadsadsa',
+  avatar: 'images/avatars/avatar_1.jpeg',
+  joinedIn: '06 de janeiro, 2020',
+  work: 'Arquiteto de Software',
+  totalPost: '388',
+});
+
+mock.onGet('/api/home/user/belmiro.neto').reply(200, {
+  id: 1,
+  name: 'Belmiro Christo Neto',
+  username: 'belmiro.neto',
+  email: 'belmiro.neto@live.com',
+  accessToken: 'dadadsadsaadssa',
+  avatar: 'images/avatars/avatarBelmiro.jpg',
+  joinedIn: '19 de fevereiro, 2021',
+  work: 'Analista de Infraestrutura',
+  totalPost: '122',
+});

@@ -4,6 +4,8 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import { ListItem, ListItemText } from '@material-ui/core';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,12 +29,24 @@ const tags = [
 
 function NavBar() {
   const classes = useStyles();
+  const account = useSelector((state) => state.account);
+  const isAuthenticated = !!account.user;
+
+  const navigate = useNavigate();
 
   return (
     <Paper className={classes.root}>
-      <Button variant="outlined" color="secondary" className={classes.button}>
-        Registrar Grátis
-      </Button>
+      {!isAuthenticated && (
+        <Button
+          variant="outlined"
+          color="secondary"
+          className={classes.button}
+          onClick={() => navigate('/sign-up')}
+        >
+          Registrar Grátis
+        </Button>
+      )}
+
       <ListSubheader>{`Tags em Alta`}</ListSubheader>
       {tags.map((item) => (
         <ListItem dense button key={`item-${item.id}-${item.name}`}>

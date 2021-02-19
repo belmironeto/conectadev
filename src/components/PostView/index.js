@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
     outline: 'none',
     fontSize: 15,
   },
+  markdown: {
+    color: theme.palette.text.primary,
+  },
 }));
 
 export default function PostView({ post }) {
@@ -34,21 +37,25 @@ export default function PostView({ post }) {
   return (
     <Container maxWidth="lg">
       <Box mb={2}>
-        <Typography variant="h4">{title}</Typography>
+        <Typography color="textPrimary" variant="h4">
+          {title}
+        </Typography>
       </Box>
       <Box display="Flex" alignItems="center" mb={2}>
         <Box>
           <Avatar className={classes.avatar} src={autor?.avatar} />
         </Box>
         <Box>
-          <Typography variante="body1">{autor?.name}</Typography>
-          <Typography variant="body2" color="textSecondary">
+          <Typography color="textPrimary" variante="body1">
+            {autor?.name}
+          </Typography>
+          <Typography color="textPrimary" variant="body2" color="textSecondary">
             {moment(date).fromNow()}
           </Typography>
         </Box>
       </Box>
       <Box mb={2}>
-        <Typography variant="body1">
+        <Typography variant="body1" color="textPrimary">
           {tags?.map((item) => item).join(',')}
         </Typography>
       </Box>
@@ -71,7 +78,7 @@ export default function PostView({ post }) {
       </Box>
       <Divider />
       <Box mb={8}>
-        <Markdown source={markdownText} />
+        <Markdown source={markdownText} className={classes.markdown} />
       </Box>
     </Container>
   );

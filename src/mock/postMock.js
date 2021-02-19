@@ -87,3 +87,27 @@ mock.onGet('/api/feed').reply(200, {
     },
   ],
 });
+
+mock.onGet('/api/posts/user/belmiro.neto').reply(200, {
+  posts: [
+    {
+      id: 1,
+      title:
+        'COMO MELHORAR SEU CODIGO JAVASCRIPT (ESLINT + PRETTIER + EDITORCONFIG) | Dicas e Truques #02',
+      slug: 'como-melhorar-seu-codigo-javascript',
+      date: moment().subtract(1, 'day').toDate().getTime(),
+      autor: {
+        id: 1,
+        name: 'Belmiro',
+        avatar: '/images/avatars/avatarBelmiro.jpg',
+      },
+      tags: ['eslint', 'prettier', 'editorconfig', 'vscode'],
+      image: '/images/posts/post1.png',
+      likes: 10,
+      comments: 30,
+    },
+  ],
+});
+mock.onGet('/api/posts/user/lucasnhimi').reply(200, {
+  posts: [],
+});

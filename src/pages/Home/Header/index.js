@@ -1,12 +1,14 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tollbar from '@material-ui/core/Toolbar';
 import { Link } from 'react-router-dom';
+
 import Notifications from './Notifications';
 import Account from './Account';
 import WritePost from './WritePost';
+import Settings from './Settings';
 
 const useStyles = makeStyles({
   appBar: {
@@ -26,12 +28,19 @@ const useStyles = makeStyles({
 
 function Header() {
   const classes = useStyles();
+  const theme = useTheme();
 
   return (
     <AppBar position="fixed" color="inherit" className={classes.appBar}>
       <Tollbar>
         <Link to="/">
-          <img src="/images/logo.png" alt="logo" className={classes.img} />
+          <img
+            src={
+              theme.darkMode ? '/images/logo-branca.png' : '/images/logo.png'
+            }
+            alt="logo"
+            className={classes.img}
+          />
         </Link>
         <div className={classes.grow}></div>
         <div className={classes.userSection}>
@@ -42,19 +51,12 @@ function Header() {
             <Notifications />
           </Box>
           <Box ml={2}>
+            <Settings />
+          </Box>
+          <Box ml={2}>
             <Account />
           </Box>
         </div>
-
-        {/* <div className="">
-          <a href="/">Conecta Dev</a>
-          <input type="text"></input>
-        </div>
-        <div className="">
-          
-          <span>img1</span>
-          <span>img2</span>
-        </div> */}
       </Tollbar>
     </AppBar>
   );

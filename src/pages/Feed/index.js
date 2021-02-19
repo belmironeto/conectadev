@@ -9,6 +9,11 @@ import NavBar from '../Feed/NavBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
+  navbar: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
 }));
 
 function Feed() {
@@ -27,7 +32,9 @@ function Feed() {
   return (
     <Container maxWidth="lg">
       <Box display="flex">
-        <NavBar />
+        <Box className={classes.navbar}>
+          <NavBar />
+        </Box>
         <div className={classes.root}>
           {posts.map((post) => (
             <PostCard key={post.id} post={post} />

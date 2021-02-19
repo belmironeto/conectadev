@@ -46,6 +46,24 @@ class AuthService {
   getToken = () => localStorage.getItem('accessToken');
   removeToken = () => localStorage.removeItem('accessToken');
   isAuthenticated = () => !!this.getToken();
+
+  signUp = (fullName, email, password) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .post('/api/home/login', { email, password })
+        .then((response) => {
+          if (response.data.user) {
+            this.setToken('JWT');
+            resolve(response.data.user);
+          } else {
+            reject(response.data.error);
+          }
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  };
 }
 
 const authService = new AuthService();
